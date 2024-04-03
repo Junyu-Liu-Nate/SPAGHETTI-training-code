@@ -1,0 +1,74 @@
+OccGen(
+  (z): Embedding(1465, 256)
+
+  (occ_former): OccFormer(
+    (embedding_transformer): GmmTransformer(
+      (l1): Linear(in_features=256, out_features=8192, bias=True)
+      (l2): ModuleList()
+      (split_transformer): ModuleList()
+      (transformer): Mlp(
+        (fc1): Linear(in_features=512, out_features=1024, bias=True)
+        (fc2): Linear(in_features=1024, out_features=512, bias=True)
+        (dropout): Dropout(p=0.0, inplace=False)
+      )
+    )
+    (to_gmm): Linear(in_features=512, out_features=16, bias=True)
+    (to_gmm2): ModuleList()
+    (to_zh): Linear(in_features=512, out_features=512, bias=True)
+  )
+
+  (occ_head): SdfHead(
+    (pos_encoder): SineLayer(
+      (linear): Linear(in_features=3, out_features=253, bias=True)
+    )
+    (sdf_mlp): DeepSDF(
+      (layers): ModuleList(
+        (0): Linear(in_features=512, out_features=1024, bias=True)
+        (1): Linear(in_features=1024, out_features=512, bias=True)
+        (2): Linear(in_features=512, out_features=1, bias=True)
+      )
+      (relu): ReLU(inplace=True)
+      (dropout): Dropout(p=0.2, inplace=False)
+    )
+    (sdf_transformer): Transformer(
+      (layers): ModuleList(
+        (0-3): 4 x TransformerLayer(
+          (norm1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (attn): MultiHeadAttention(
+            (to_queries): Linear(in_features=256, out_features=256, bias=False)
+            (to_keys_values): Linear(in_features=512, out_features=512, bias=False)
+            (project): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (norm2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (mlp): Mlp(
+            (fc1): Linear(in_features=256, out_features=512, bias=True)
+            (fc2): Linear(in_features=512, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+    )
+  )
+  
+  (from_gmm): Linear(in_features=16, out_features=512, bias=True)
+  (affine_transformer): Transformer(
+    (layers): ModuleList(
+      (0-3): 4 x TransformerLayer(
+        (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (attn): MultiHeadAttention(
+          (to_queries): Linear(in_features=512, out_features=512, bias=False)
+          (to_keys_values): Linear(in_features=512, out_features=1024, bias=False)
+          (project): Linear(in_features=512, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (mlp): Mlp(
+          (fc1): Linear(in_features=512, out_features=1024, bias=True)
+          (fc2): Linear(in_features=1024, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+  )
+)

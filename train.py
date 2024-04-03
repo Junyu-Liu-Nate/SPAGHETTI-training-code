@@ -4,6 +4,7 @@ from data_loaders import mesh_datasets
 from options import Options
 from utils import train_utils, files_utils, rotation_utils, mcubes_meshing
 from models.occ_gmm import OccGen
+# from models.occ_gmm import Spaghetti
 from models import gm_utils, sdf_loss
 from warmup_scheduler import GradualWarmupScheduler
 import wandb
@@ -117,6 +118,7 @@ class Trainer:
         samples_occ, samples_gmm,  = samples[:, :3].view(samples.shape[0], -1, 3), samples[:, 3],
         self.optimizer.zero_grad()
         zh, z, gmms = self.model.forward_a(items)
+        # print(f'After self.model.forward_a(items), gmm[0] shape: {gmms[0]}') #TODO: Debug
         loss_gmm = self.get_gmm_loss(gmms, samples_gmm)
         gmms_b, samples_occ_b = self.transform(gmms, samples_occ)
         out = self.model.forward_b(samples_occ_b, zh, gmms_b)
@@ -179,6 +181,7 @@ class Trainer:
         self.dl = self.reset_dl()
         self.offset = opt.warm_up // len(self.dl)
         model: Tuple[OccGen, Options] = train_utils.model_lc(opt)
+        # model: Tuple[Spaghetti, Options] = train_utils.model_lc(opt)
         self.model, self.opt = model
         self.optimizer = Optimizer(self.model.parameters(), lr=1e-7)
         self.warm_up_scheduler = GradualWarmupScheduler(self.optimizer, multiplier=1e2, total_epoch=opt.warm_up)

@@ -1,0 +1,87 @@
+Spaghetti(
+  (z): Embedding(1775, 256)
+
+  (decomposition_control): DecompositionControl(
+    (decomposition): DecompositionNetwork(
+      (l1): Linear(in_features=256, out_features=8192, bias=True)
+      (to_zb): Transformer(
+        (layers): ModuleList(
+          (0-3): 4 x TransformerLayer(
+            (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (attn): MultiHeadAttention(
+              (to_queries): Linear(in_features=512, out_features=512, bias=False)
+              (to_keys_values): Linear(in_features=512, out_features=1024, bias=False)
+              (project): Linear(in_features=512, out_features=512, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+            (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+            (mlp): FeedForward(
+              (fc1): Linear(in_features=512, out_features=1024, bias=True)
+              (fc2): Linear(in_features=1024, out_features=512, bias=True)
+              (dropout): Dropout(p=0.0, inplace=False)
+            )
+          )
+        )
+      )
+    )
+    (to_gmm): Linear(in_features=512, out_features=16, bias=True)
+    (to_s): Linear(in_features=512, out_features=512, bias=True)
+  )
+
+  (occupancy_network): OccupancyNetwork(
+    (pos_encoder): SineLayer(
+      (linear): Linear(in_features=3, out_features=253, bias=True)
+    )
+    (occ_mlp): OccupancyMlP(
+      (dropout): Dropout(p=0.2, inplace=False)
+      (relu): ReLU(inplace=True)
+      (layers): ModuleList(
+        (0-1): 2 x Linear(in_features=512, out_features=512, bias=True)
+        (2): Linear(in_features=512, out_features=1024, bias=True)
+        (3): Linear(in_features=1024, out_features=512, bias=True)
+        (4): Linear(in_features=512, out_features=512, bias=True)
+        (5): Linear(in_features=512, out_features=1, bias=True)
+      )
+    )
+    (occ_transformer): Transformer(
+      (layers): ModuleList(
+        (0-5): 6 x TransformerLayer(
+          (norm1): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (attn): MultiHeadAttention(
+            (to_queries): Linear(in_features=256, out_features=256, bias=False)
+            (to_keys_values): Linear(in_features=512, out_features=512, bias=False)
+            (project): Linear(in_features=256, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+          (norm2): LayerNorm((256,), eps=1e-05, elementwise_affine=True)
+          (mlp): FeedForward(
+            (fc1): Linear(in_features=256, out_features=512, bias=True)
+            (fc2): Linear(in_features=512, out_features=256, bias=True)
+            (dropout): Dropout(p=0.0, inplace=False)
+          )
+        )
+      )
+    )
+  )
+  
+  (from_gmm): Linear(in_features=16, out_features=512, bias=True)
+  (mixing_network): Transformer(
+    (layers): ModuleList(
+      (0-3): 4 x TransformerLayer(
+        (norm1): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (attn): MultiHeadAttention(
+          (to_queries): Linear(in_features=512, out_features=512, bias=False)
+          (to_keys_values): Linear(in_features=512, out_features=1024, bias=False)
+          (project): Linear(in_features=512, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+        (norm2): LayerNorm((512,), eps=1e-05, elementwise_affine=True)
+        (mlp): FeedForward(
+          (fc1): Linear(in_features=512, out_features=1024, bias=True)
+          (fc2): Linear(in_features=1024, out_features=512, bias=True)
+          (dropout): Dropout(p=0.0, inplace=False)
+        )
+      )
+    )
+  )
+)

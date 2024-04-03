@@ -344,6 +344,7 @@ class Inference:
         # else:
         #     names = ["random"] * len(fixed_items)
         # names = [f'{i:02d}_{name}' for i, name in zip(fixed_items, names)]
+        # TODO: Currently fixed to 10 samples from training data
         fixed_items = torch.tensor([0, 100, 200, 300, 400, 500, 600, 700, 800, 900], dtype=torch.int64)
         # fixed_items = torch.arange(size) + 100
         # fixed_items = fixed_items.unique()

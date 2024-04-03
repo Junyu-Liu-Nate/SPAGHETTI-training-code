@@ -252,6 +252,7 @@ def main():
             # from training samples
             # model.plot(args['output_name'], args['num_samples'], res=175, tf_sample_dirname=args['tf_sample_dirname'], attn_weights_path=args['attn_weights_path']) #400 res def
             model.plot(args['output_name'], args['num_samples'])
+        # train_utils.visualize_model_weights(model) # Visualize model structure
     return 0
 
 
